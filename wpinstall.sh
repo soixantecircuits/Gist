@@ -66,7 +66,7 @@ echo "Admin Name?"
 read admin
 
 echo "Admin Password?"
-read pass
+read -s pass
 
 echo "Admin Email?"
 read email
