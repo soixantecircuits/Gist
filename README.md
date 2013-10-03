@@ -10,6 +10,8 @@ Install wordpress in less than 1 minute.
 
 Run the script from the command line like so: ```sh wpinstall.sh Path/to/your/wordpress/folder```
 
+Make sure the folder does not exist.
+
 ### Facebook token app generator
 Require [node.js](http://nodejs.org/).
 

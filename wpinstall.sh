@@ -6,7 +6,7 @@ if [ $1 = ""];
 	exit
 fi
 
-mkdir $1 && cd $1
+mkdir $1 #&& cd $1
 if [ $? != 0 ]; 
 	then 
 	exit $? 
@@ -17,8 +17,10 @@ echo "================================"
 echo "    Downloading Wordpress"
 echo "================================"
 
-wp core download
+#wp core download
+git clone git@repo.soixantecircuits.fr:wordpress/wordpressappfog.git $1
 
+cd $1
 
 echo "================================"
 echo "    Wordpress Configuration"
@@ -74,15 +76,16 @@ wp core install --url="$url" --title="$title" --admin_name="$admin" --admin_pass
 
 
 echo "================================"
-echo "    Plugins Installation"
+echo "    Updating Wordpress"
 echo "================================"
 
-wp plugin install p3-profiler
-wp plugin install debug-queries
-wp plugin install w3-total-cache
-wp plugin install simple-fields
-wp plugin install contact-form-7
-wp plugin install wp-migrate-db
+wp core update
+
+echo "================================"
+echo "    Updating Plugins"
+echo "================================"
+
+wp plugin update-all
 
 
 echo "============================================================================================"
