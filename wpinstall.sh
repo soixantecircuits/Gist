@@ -87,6 +87,14 @@ echo "================================"
 
 wp plugin update-all
 
+echo "================================"
+echo "    Activating Plugins"
+echo "================================"
+
+wp plugin activate wpmandrill
+
+wp plugin activate wp-migrate-db-pro
+
 
 echo "============================================================================================"
 echo "    Congratulations! You have now a fresh install of wordpress with some basic plugins!"
