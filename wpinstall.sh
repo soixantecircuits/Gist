@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if ! type "wp" > /dev/null 2>&1; then
+  echo "wp-cli is required!"
+  echo "Use 'curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash' to install it."
+  exit
+fi
+
 if [ -d "$1" ] ; then
   echo "Directory exist do you want to replace it ? yes/no"
   read shouldReplace
