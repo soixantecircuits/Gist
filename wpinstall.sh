@@ -1,16 +1,26 @@
 #!/bin/sh
 
-if [ $1 = ""];
-	then
-	echo "Try 'sh wpinstall.sh <Path/to/your/wordpress/folder>'"
-	exit
-fi
-
-mkdir $1 #&& cd $1
-if [ $? != 0 ]; 
-	then 
-	exit $? 
-fi  
+if [ -d "$1" ] ; then
+  echo "Directory exist do you want to replace it ? yes/no"
+  read shouldReplace
+  		if [ "$shouldReplace" = "" ]; then
+			shouldReplace="yes"
+		fi
+		if [ "$shouldReplace" = "yes" ]; then
+			rm -rf $1
+			mkdir $1
+		else
+			exit 0
+		fi
+else 
+	if [ -z "$1" ];
+		then
+		echo "Try 'sh wpinstall.sh <Path/to/your/wordpress/folder>'"
+		exit
+	else
+		mkdir $1
+	fi
+fi 
 
 
 echo "================================"
