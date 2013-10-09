@@ -28,13 +28,14 @@ else
 	fi
 fi 
 
+install_path=$1
 
 echo "================================"
 echo "    Downloading Wordpress"
 echo "================================"
 
 #wp core download
-git clone git@repo.soixantecircuits.fr:wordpress/wordpressappfog.git $1
+git clone git@repo.soixantecircuits.fr:wordpress/wordpressappfog.git $install_path
 
 cd $1
 
@@ -65,10 +66,9 @@ if [ "$dbprefix" = "" ]; then
 	dbprefix="wp_"
 fi
 
-wp core config --dbname=$dbname --dbuser="$dbuser" --dbpass="$dbpass" --dbhost="$dbhost" --dbprefix="$dbprefix"
+wp core config --dbname=$dbname --dbuser="$dbuser" --dbpass="$dbpass" --dbhost="$dbhost" --dbprefix="$dbprefix" > /dev/null 2>&1
 
 wp db create "$dbname"
-
 
 echo "================================"
 echo "    Wordpress Installation"
@@ -90,7 +90,6 @@ echo "Admin Email?"
 read email
 wp core install --url="$url" --title="$title" --admin_name="$admin" --admin_password="$pass" --admin_email="$email"
 
-
 echo "================================"
 echo "    Updating Wordpress"
 echo "================================"
@@ -111,7 +110,9 @@ wp plugin activate wpmandrill
 
 wp plugin activate wp-migrate-db-pro
 
+cd -
+php=`which php`
+wp_config_file="$install_path/wp-config.php"
+echo $wp_config_file
+php changeConfig.php $wp_config_file
 
-echo "============================================================================================"
-echo "    Congratulations! You have now a fresh install of wordpress with some basic plugins!"
-echo "============================================================================================"
