@@ -5,10 +5,10 @@ require($argv[1]);
 $file = $argv[1];
 
 $new_file_content.="<?php
-
-\$services = getenv(\"VCAP_SERVICES\");
-if(\$services != \"\"){
-  \$services_json = json_decode(\$services,true);
+\$heroku_services = getenv(\"CLEARDB_DATABASE_URL\");
+\$appfog_services = getenv(\"VCAP_SERVICES\");
+if(\$appfog_services != \"\"){
+  \$services_json = json_decode(\$appfog_services,true);
   \$mysql_config = \$services_json[\"mysql-5.1\"][0][\"credentials\"];
  
   // ** MySQL settings from resource descriptor ** //
@@ -17,7 +17,16 @@ if(\$services != \"\"){
   define('DB_PASSWORD', \$mysql_config[\"password\"]);
   define('DB_HOST', \$mysql_config[\"hostname\"]);
   define('DB_PORT', \$mysql_config[\"port\"]);  
-} else {
+}
+elseif (\$heroku_services != \"\"){
+    \$url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+    define('DB_NAME', substr(\$url[\"path\"],1));
+    define('DB_USER',\$url[\"user\"]);
+    define('DB_PASSWORD', \$url[\"pass\"]);
+    define('DB_HOST', \$url[\"host\"]);
+    define('DB_CHARSET', 'utf8');
+}
+else{
   define('DB_NAME', '".constant('DB_NAME')."');
   define('DB_USER', '".constant('DB_USER')."');
   define('DB_PASSWORD', '".constant('DB_PASSWORD')."');
